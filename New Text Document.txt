@@ -1,0 +1,72 @@
+// 1. PaymentStrategy Interface
+interface PaymentStrategy {
+    void pay(double amount);
+}
+
+// 2. Concrete Strategy Classes
+
+// CreditCardPayment Class
+class CreditCardPayment implements PaymentStrategy {
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid " + amount + " using Credit Card.");
+    }
+}
+
+// PayPalPayment Class
+class PayPalPayment implements PaymentStrategy {
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid " + amount + " using PayPal.");
+    }
+}
+
+// BitCoinPayment Class
+class BitCoinPayment implements PaymentStrategy {
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid " + amount + " using BitCoin.");
+    }
+}
+
+// 3. ShoppingCart Class
+class ShoppingCart {
+    private PaymentStrategy paymentStrategy;
+
+    // Constructor to set the payment strategy
+    public ShoppingCart(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
+    // Method to set payment strategy dynamically
+    public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
+    // Method to calculate the total amount and apply payment
+    public void checkout(double amount) {
+        paymentStrategy.pay(amount);
+    }
+}
+
+// 4. Main Class (to test the implementation)
+public class Main {
+    public static void main(String[] args) {
+        // Create different payment strategies
+        PaymentStrategy creditCard = new CreditCardPayment();
+        PaymentStrategy payPal = new PayPalPayment();
+        PaymentStrategy bitCoin = new BitCoinPayment();
+
+        // Create a shopping cart and set a payment strategy
+        ShoppingCart cart = new ShoppingCart(creditCard);
+        cart.checkout(100.00);  // Pay using Credit Card
+
+        // Change payment strategy to PayPal
+        cart.setPaymentStrategy(payPal);
+        cart.checkout(200.00);  // Pay using PayPal
+
+        // Change payment strategy to BitCoin
+        cart.setPaymentStrategy(bitCoin);
+        cart.checkout(50.00);  // Pay using BitCoin
+    }
+}
